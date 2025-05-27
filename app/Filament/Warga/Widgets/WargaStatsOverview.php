@@ -25,20 +25,20 @@ class WargaStatsOverview extends BaseWidget
         // $activeBankAccounts = BankAccount::where('is_active', true)->count();
 
         return [
-            Stat::make('My Payments', $totalPayments)
-                ->description('All your payment records')
+            Stat::make('Pembayaran', $totalPayments)
+                ->description('Seluruh riwayat pembayaran')
                 ->descriptionIcon('heroicon-m-document-text')
                 ->color('info'),
-            Stat::make('Pending Payments', $pendingPayments)
-                ->description('Awaiting verification')
+            Stat::make('Pembayaran Tertunda', $pendingPayments)
+                ->description('Menunggu verifikasi admin')
                 ->descriptionIcon('heroicon-m-clock')
                 ->color('warning'),
-            Stat::make('Verified Payments', $verifiedPayments)
-                ->description('Successfully verified')
+            Stat::make('Pembayaran Terverifikasi', $verifiedPayments)
+                ->description('Sukses terverifikasi')
                 ->descriptionIcon('heroicon-m-check-circle')
                 ->color('success'),
-            Stat::make('Total Amount Paid', 'Rp ' . number_format($totalAmountPaid, 0, ',', '.'))
-                ->description('From verified payments')
+            Stat::make('Total Pembayaran', 'Rp ' . number_format($totalAmountPaid, 0, ',', '.'))
+                ->description('Jumlah pembayaran berhasil')
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color('success'),
             // Stat::make('Active Bank Accounts', $activeBankAccounts)

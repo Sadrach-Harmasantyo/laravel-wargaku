@@ -16,35 +16,43 @@ class ExpenseResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
-    protected static ?string $navigationGroup = 'Finance';
+    protected static ?string $navigationGroup = 'Keuangan';
+
+    protected static?string $label = 'Pengeluaran';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
+                    ->label('Nama Pengeluaran')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('category')
+                    ->label('Kategori')
                     ->options([
-                        'operational' => 'Operational',
-                        'maintenance' => 'Maintenance',
-                        'security' => 'Security',
-                        'events' => 'Community Events',
-                        'other' => 'Other',
+                        'operational' => 'Operasional',
+                        'maintenance' => 'Perbaikan',
+                        'security' => 'Keamanan',
+                        'events' => 'Acara',
+                        'other' => 'Lainnya',
                     ])
                     ->required(),
                 Forms\Components\DatePicker::make('expense_date')
+                    ->label('Tanggal Pengeluaran')
                     ->required()
                     ->default(now()),
                 Forms\Components\TextInput::make('amount')
+                    ->label('Jumlah')
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
                 Forms\Components\FileUpload::make('receipt_image')
+                    ->label('Bukti Pengeluaran')
                     ->image()
                     ->directory('expense-receipts'),
                 Forms\Components\Textarea::make('description')
+                    ->label('Deskripsi')
                     ->maxLength(65535)
                     ->columnSpanFull(),
             ]);
@@ -55,8 +63,10 @@ class ExpenseResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Nama Pengeluaran')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category')
+                    ->label('Kategori')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'security' => 'danger',
@@ -64,28 +74,44 @@ class ExpenseResource extends Resource
                         'operational' => 'info',
                         'events' => 'success',
                         default => 'gray',
+                    })
+                    ->formatStateUsing(function (string $state): string {
+                        $translations = [
+                            'operational' => 'Operasional',
+                            'maintenance' => 'Perbaikan',
+                            'security' => 'Keamanan',
+                            'events' => 'Acara',
+                            'other' => 'Lainnya',
+                        ];
+                
+                        return $translations[$state] ?? ucfirst($state);
                     }),
                 Tables\Columns\TextColumn::make('expense_date')
-                    ->date()
+                    ->label('Tanggal Pengeluaran')
+                    ->date('d M Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('amount')
+                    ->label('Jumlah')
                     ->money('IDR')
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('receipt_image')
+                    ->label('Bukti Pengeluaran')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tanggal Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('category')
+                    ->label('Kategori')
                     ->options([
-                        'operational' => 'Operational',
-                        'maintenance' => 'Maintenance',
-                        'security' => 'Security',
-                        'events' => 'Community Events',
-                        'other' => 'Other',
+                        'operational' => 'Operasional',
+                        'maintenance' => 'Perbaikan',
+                        'security' => 'Keamanan',
+                        'events' => 'Acara',
+                        'other' => 'Lainnya',
                     ]),
             ])
             ->actions([

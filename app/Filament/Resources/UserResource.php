@@ -19,16 +19,20 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $navigationGroup = 'Management';
+    protected static ?string $navigationGroup = 'Manajemen';
+
+    protected static ?string $label = 'Pengguna';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Nama Lengkap')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('nik')
+                    ->numeric()
                     ->required()
                     ->maxLength(16)
                     ->unique(ignoreRecord: true)
@@ -39,17 +43,21 @@ class UserResource extends Resource
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
                 Forms\Components\TextInput::make('password')
+                    ->label('Kata Sandi')
                     ->password()
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     ->required(fn (string $operation): bool => $operation === 'create'),
                 Forms\Components\TextInput::make('phone_number')
+                    ->label('Nomor Telepon')
                     ->tel()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('address')
+                    ->label('Alamat Lengkap')
                     ->maxLength(65535)
                     ->columnSpanFull(),
                 Forms\Components\Select::make('role')
+                    ->label('Peran')
                     ->options([
                         'warga' => 'Warga',
                         'bendahara' => 'Bendahara',
@@ -64,28 +72,34 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nama Lengkap')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone_number')
+                    ->label('Nomor Telepon')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role')
+                    ->label('Peran')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'bendahara' => 'success',
                         'warga' => 'info',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tanggal Daftar')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Terakhir Diperbarui')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('role')
+                    ->label('Peran')
                     ->options([
                         'warga' => 'Warga',
                         'bendahara' => 'Bendahara',

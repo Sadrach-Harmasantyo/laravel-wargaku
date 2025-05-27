@@ -60,8 +60,8 @@ class FinancialOverview extends BaseWidget
             : 100;
 
         return [
-            Stat::make('Income This Month', 'Rp ' . number_format($currentMonthIncome, 0, ',', '.'))
-                ->description($incomeTrend >= 0 ? 'Increased by ' . number_format(abs($incomeTrend), 1) . '%' : 'Decreased by ' . number_format(abs($incomeTrend), 1) . '%')
+            Stat::make('Pendapatan Bulan Ini', 'Rp ' . number_format($currentMonthIncome, 0, ',', '.'))
+                ->description($incomeTrend >= 0 ? 'Naik ' . number_format(abs($incomeTrend), 1) . '%' : 'Turun ' . number_format(abs($incomeTrend), 1) . '%')
                 ->descriptionIcon($incomeTrend >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($incomeTrend >= 0 ? 'success' : 'danger')
                 ->chart([
@@ -69,8 +69,8 @@ class FinancialOverview extends BaseWidget
                     $currentMonthIncome / 1000
                 ]),
                 
-            Stat::make('Expenses This Month', 'Rp ' . number_format($currentMonthExpenses, 0, ',', '.'))
-                ->description($expenseTrend <= 0 ? 'Decreased by ' . number_format(abs($expenseTrend), 1) . '%' : 'Increased by ' . number_format(abs($expenseTrend), 1) . '%')
+            Stat::make('Pengeluaran Bulan Ini', 'Rp ' . number_format($currentMonthExpenses, 0, ',', '.'))
+                ->description($expenseTrend <= 0 ? 'Turun ' . number_format(abs($expenseTrend), 1) . '%' : 'Naik ' . number_format(abs($expenseTrend), 1) . '%')
                 ->descriptionIcon($expenseTrend <= 0 ? 'heroicon-m-arrow-trending-down' : 'heroicon-m-arrow-trending-up')
                 ->color($expenseTrend <= 0 ? 'success' : 'danger')
                 ->chart([
@@ -78,8 +78,8 @@ class FinancialOverview extends BaseWidget
                     $currentMonthExpenses / 1000
                 ]),
                 
-            Stat::make('Balance This Month', 'Rp ' . number_format($currentBalance, 0, ',', '.'))
-                ->description($balanceTrend >= 0 ? 'Improved by ' . number_format(abs($balanceTrend), 1) . '%' : 'Declined by ' . number_format(abs($balanceTrend), 1) . '%')
+            Stat::make('Saldo Bulan Ini', 'Rp ' . number_format($currentBalance, 0, ',', '.'))
+                ->description($balanceTrend >= 0 ? 'Meningkat ' . number_format(abs($balanceTrend), 1) . '%' : 'Menurun ' . number_format(abs($balanceTrend), 1) . '%')
                 ->descriptionIcon($balanceTrend >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($balanceTrend >= 0 ? 'success' : 'danger')
                 ->chart([

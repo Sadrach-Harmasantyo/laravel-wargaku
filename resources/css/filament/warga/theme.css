@@ -1,0 +1,61 @@
+@import "../../../../vendor/filament/filament/resources/css/theme.css";
+
+@config 'tailwind.config.js';
+
+.fi-simple-layout {
+    background-image: url("../../../../public/images/background-blue-gradient.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.fi-main {
+    background-image: url("../../../../public/images/background-blue-gradient.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.fi-sidebar-nav {
+    background: white;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-button {
+    background: #2563eb;
+}
+
+/* .fi-sidebar-item-icon {
+    @apply text-slate-800;
+}
+
+.fi-sidebar-item-label {
+    @apply text-slate-800;
+} */
+
+.fi-sidebar-item-active .fi-sidebar-item-button:hover {
+    background: #2563eb;
+}
+
+.fi-sidebar-item-button:hover {
+    @apply bg-gray-100;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-label {
+    @apply text-white;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-icon {
+    @apply text-white;
+}
+
+.fi-breadcrumbs-item-label {
+    @apply text-slate-800;
+}
+
+.fi-breadcrumbs-item-separator {
+    @apply text-slate-800;
+}
+
+.fi-header-heading {
+    @apply text-slate-800;
+}

@@ -17,6 +17,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\Warga\Pages\FinancialReport;
+use Filament\Enums\ThemeMode;
 
 class WargaPanelProvider extends PanelProvider
 {
@@ -26,14 +28,21 @@ class WargaPanelProvider extends PanelProvider
             ->id('warga')
             ->default()
             ->path('/')
+            ->favicon('images/favicon-wargaku.png')
+            ->darkmode(false)
             ->login(\App\Filament\Warga\Pages\Auth\Login::class)
+            ->defaultThemeMode(
+                ThemeMode::Light
+            )
             ->colors([
-                'primary' => Color::Green,
+                'primary' => Color::Blue,
             ])
+            ->viteTheme('resources/css/filament/warga/theme.css') 
             ->discoverResources(in: app_path('Filament/Warga/Resources'), for: 'App\\Filament\\Warga\\Resources')
             ->discoverPages(in: app_path('Filament/Warga/Pages'), for: 'App\\Filament\\Warga\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+                FinancialReport::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Warga/Widgets'), for: 'App\\Filament\\Warga\\Widgets')
             ->widgets([

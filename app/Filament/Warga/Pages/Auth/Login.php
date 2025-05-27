@@ -16,7 +16,7 @@ class Login extends BaseLogin
             ->schema([
                 $this->getPhoneNumberFormComponent(),
                 $this->getPasswordFormComponent(),
-                $this->getRememberFormComponent(),
+                // $this->getRememberFormComponent(),
             ])
             ->statePath('data');
     }
@@ -24,7 +24,7 @@ class Login extends BaseLogin
     protected function getPhoneNumberFormComponent(): Component
     {
         return TextInput::make('phone_number')
-            ->label('Phone Number')
+            ->label('Nomor Telepon')
             ->tel()
             ->required()
             ->autocomplete()

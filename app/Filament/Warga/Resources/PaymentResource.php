@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 // Remove this import
 // use Filament\Tables\Actions\Action;
 
@@ -22,17 +23,19 @@ class PaymentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
-    protected static ?string $navigationLabel = 'My Payments';
+    protected static?string $label = 'Pembayaran';
+
+    protected static ?string $navigationLabel = 'Pembayaran';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Target Bank Information')
-                    ->description('Select the bank account for your payment')
+                Forms\Components\Section::make('Informasi Bank Pembayaran')
+                    ->description('Pilih bank untuk pembayaran')
                     ->schema([
                         Forms\Components\Select::make('bank_account_id')
-                            ->label('Bank Account')
+                            ->label('Akun Bank')
                             ->options(BankAccount::where('is_active', true)->pluck('bank_name', 'id'))
                             ->searchable()
                             ->required()
@@ -45,11 +48,21 @@ class PaymentResource extends Resource
                                         $set('account_holder_display', $bankAccount->account_holder);
                                     }
                                 }
+                            })
+                            ->afterStateHydrated(function ($state, Forms\Set $set) {
+                                // Populate account details when viewing existing record
+                                if ($state) {
+                                    $bankAccount = BankAccount::find($state);
+                                    if ($bankAccount) {
+                                        $set('account_number_display', $bankAccount->account_number);
+                                        $set('account_holder_display', $bankAccount->account_holder);
+                                    }
+                                }
                             }),
                         
                         Forms\Components\TextInput::make('account_number_display')
-                            ->label('Account Number')
-                            ->helperText('Click to copy')
+                            ->label('No. Rekening')
+                            ->helperText('Klik untuk salin')
                             ->readOnly()
                             ->suffixAction(
                                 Forms\Components\Actions\Action::make('copy')
@@ -67,9 +80,9 @@ class PaymentResource extends Resource
                                         
                                         if (navigator.clipboard && navigator.clipboard.writeText) {
                                             navigator.clipboard.writeText(text).then(() => {
-                                                $tooltip("Copied to clipboard", { timeout: 1500 });
+                                                $tooltip("Berhasil disalin", { timeout: 1500 });
                                             }).catch(() => {
-                                                $tooltip("Failed to copy", { timeout: 1500 });
+                                                $tooltip("Gagal disalin", { timeout: 1500 });
                                             });
                                         } else {
                                             const textArea = document.createElement("textarea");
@@ -80,9 +93,9 @@ class PaymentResource extends Resource
                                             textArea.select();
                                             try {
                                                 document.execCommand("copy");
-                                                $tooltip("Copied to clipboard", { timeout: 1500 });
+                                                $tooltip("Berhasil disalin", { timeout: 1500 });
                                             } catch (err) {
-                                                $tooltip("Failed to copy", { timeout: 1500 });
+                                                $tooltip("Gagal disalin", { timeout: 1500 });
                                             }
                                             document.body.removeChild(textArea);
                                         }
@@ -96,31 +109,102 @@ class PaymentResource extends Resource
                             ->dehydrated(false),
                         
                         Forms\Components\TextInput::make('account_holder_display')
-                            ->label('Account Holder')
+                            ->label('Atas Nama')
                             ->readOnly()
                             ->visible(fn (callable $get) => $get('bank_account_id') !== null)
                             ->dehydrated(false),
                     ]),
                 
-                Forms\Components\Section::make('Payment Information')
-                    ->description('Enter your payment details')
+                Forms\Components\Section::make('Informasi Pembayaran')
+                    ->description('Isi informasi pembayaran')
                     ->schema([
                         Forms\Components\DatePicker::make('payment_date')
+                            ->label('Tanggal Pembayaran')
                             ->required()
                             ->default(now()),
-                        Forms\Components\DatePicker::make('payment_for_month')
-                            ->required()
-                            ->displayFormat('F Y')
-                            ->default(now()),
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\Select::make('temp_month')
+                                    ->label('Bulan')
+                                    ->options([
+                                        1 => 'Januari',
+                                        2 => 'Februari',
+                                        3 => 'Maret',
+                                        4 => 'April',
+                                        5 => 'Mei',
+                                        6 => 'Juni',
+                                        7 => 'Juli',
+                                        8 => 'Agustus',
+                                        9 => 'September',
+                                        10 => 'Oktober',
+                                        11 => 'November',
+                                        12 => 'Desember',
+                                    ])
+                                    ->default(now()->month)
+                                    ->required()
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, $get, Forms\Set $set) {
+                                        $year = $get('temp_year');
+                                        if ($year) {
+                                            $date = Carbon::createFromDate($year, $state, 1)->format('Y-m-d');
+                                            $set('payment_for_month', $date);
+                                        }
+                                    })
+                                    ->afterStateHydrated(function ($state, Forms\Set $set, ?Payment $record) {
+                                        if ($record && $record->payment_for_month) {
+                                            $set('temp_month', Carbon::parse($record->payment_for_month)->month);
+                                        }
+                                    }),
+                                Forms\Components\Select::make('temp_year')
+                                    ->label('Tahun')
+                                    ->options(function() {
+                                        $currentYear = now()->year;
+                                        return [
+                                            $currentYear => $currentYear,
+                                            $currentYear + 1 => $currentYear + 1,
+                                        ];
+                                    })
+                                    ->default(now()->year)
+                                    ->required()
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, $get, Forms\Set $set) {
+                                        $month = $get('temp_month');
+                                        if ($month) {
+                                            $date = Carbon::createFromDate($state, $month, 1)->format('Y-m-d');
+                                            $set('payment_for_month', $date);
+                                        }
+                                    })
+                                    ->afterStateHydrated(function ($state, Forms\Set $set, ?Payment $record) {
+                                        if ($record && $record->payment_for_month) {
+                                            $set('temp_year', Carbon::parse($record->payment_for_month)->year);
+                                        }
+                                    }),
+                            ]),
+                        Forms\Components\Hidden::make('payment_for_month')
+                            ->default(now()->startOfMonth()->format('Y-m-d'))
+                            ->required(),
                         Forms\Components\TextInput::make('amount')
+                            ->label('Jumlah Pembayaran')
                             ->required()
                             ->numeric()
                             ->prefix('Rp'),
                         Forms\Components\FileUpload::make('proof_of_payment')
+                            ->label('Bukti Pembayaran')
                             ->image()
                             ->directory('payment-proofs')
                             ->required(),
                     ]),
+                
+                Forms\Components\Section::make('Status Informasi Pembayaran')
+                    ->schema([
+                        Forms\Components\TextInput::make('status')
+                            ->readOnly(),
+                        Forms\Components\Textarea::make('notes')
+                            ->readOnly()
+                            ->visible(fn (callable $get) => $get('status') === 'rejected')
+                            ->columnSpanFull(),
+                    ])
+                    ->visible(fn (?Payment $record) => $record !== null),
             ]);
     }
 
@@ -132,15 +216,19 @@ class PaymentResource extends Resource
                     ->label('Bank')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('payment_date')
+                    ->label('Tanggal Pembayaran')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('payment_for_month')
+                    ->label('Target Bulan Pembayaran')
                     ->date('F Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('amount')
+                    ->label('Jumlah Pembayaran')
                     ->money('IDR')
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('proof_of_payment')
+                    ->label('Bukti Pembayaran')
                     ->disk('public')
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('status')
@@ -149,6 +237,15 @@ class PaymentResource extends Resource
                         'verified' => 'success',
                         'pending' => 'warning',
                         'rejected' => 'danger',
+                    })
+                    ->formatStateUsing(function (string $state): string {
+                        $translations = [
+                            'verified' => 'Terverifikasi',
+                            'pending' => 'Tertunda',
+                            'rejected' => 'Ditolak',
+                        ];
+                
+                        return $translations[$state] ?? ucfirst($state);
                     }),
                 Tables\Columns\TextColumn::make('notes')
                     ->toggleable()
@@ -161,9 +258,9 @@ class PaymentResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
-                        'pending' => 'Pending',
-                        'verified' => 'Verified',
-                        'rejected' => 'Rejected',
+                        'pending' => 'Tertunda',
+                        'verified' => 'Terverifikasi',
+                        'rejected' => 'Ditolak',
                     ]),
             ])
             ->actions([

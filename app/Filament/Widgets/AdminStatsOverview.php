@@ -15,28 +15,33 @@ class AdminStatsOverview extends BaseWidget
         $totalPayments = Payment::count();
         $pendingPayments = Payment::where('status', 'pending')->count();
         $verifiedPayments = Payment::where('status', 'verified')->count();
+        $rejectedPayments = Payment::where('status', 'rejected')->count();
         
         $totalAmount = Payment::where('status', 'verified')->sum('amount');
 
         return [
             Stat::make('Total Warga', $totalWarga)
-                ->description('Registered community members')
+                ->description('Total warga terdaftar')
                 ->descriptionIcon('heroicon-m-users')
                 ->color('primary'),
-            Stat::make('Total Payments', $totalPayments)
-                ->description('All payment records')
+            Stat::make('Total Pembayaran', $totalPayments)
+                ->description('Total pembayaran yang dilakukan')
                 ->descriptionIcon('heroicon-m-document-text')
                 ->color('info'),
-            Stat::make('Pending Payments', $pendingPayments)
-                ->description('Awaiting verification')
+            Stat::make('Pembayaran Tertunda', $pendingPayments)
+                ->description('Menunggu verifikasi')
                 ->descriptionIcon('heroicon-m-clock')
                 ->color('warning'),
-            Stat::make('Verified Payments', $verifiedPayments)
-                ->description('Successfully verified')
+            Stat::make('Pembayaran Terverifikasi', $verifiedPayments)
+                ->description('Sukses terverifikasi')
                 ->descriptionIcon('heroicon-m-check-circle')
                 ->color('success'),
-            Stat::make('Total Amount Collected', 'Rp ' . number_format($totalAmount, 0, ',', '.'))
-                ->description('From verified payments')
+            Stat::make('Pembayaran Ditolak', $rejectedPayments)
+                ->description('Pembayaran bermasalah')
+                ->descriptionIcon('heroicon-m-x-circle')
+                ->color('danger'),
+            Stat::make('Total Uang Terkumpul', 'Rp ' . number_format($totalAmount, 0, ',', '.'))
+                ->description('Pembayaran terverifikasi')
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color('success'),
         ];
