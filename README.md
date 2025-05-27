@@ -1,66 +1,83 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 💰 WargaKu - Sistem Manajemen Keuangan Warga
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<div align="center">
+  <img src="public/images/logo-wargaku.png" alt="WargaKu Logo" width="200"/>
+  <p><em>Solusi Modern untuk Pengelolaan Keuangan Warga</em></p>
+</div>
 
-## About Laravel
+## 🌟 Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 👥 Panel Warga
+- **Pembayaran Iuran**
+  - Unggah bukti pembayaran dengan mudah
+  - Pilih bulan pembayaran dengan sistem dropdown
+  - Pantau status verifikasi pembayaran
+- **Laporan Keuangan**
+  - Lihat ringkasan keuangan bulanan
+  - Pantau riwayat pembayaran pribadi
+  - Akses informasi pengeluaran secara transparan
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👨‍💼 Panel Admin
+- **Manajemen Pembayaran**
+  - Verifikasi pembayaran warga
+  - Kelola data pembayaran
+  - Pantau status pembayaran seluruh warga
+- **Pengelolaan Pengeluaran**
+  - Catat pengeluaran dengan kategori
+  - Kelola bukti pengeluaran
+  - Buat laporan pengeluaran terperinci
+- **Laporan Keuangan**
+  - Generate laporan keuangan bulanan
+  - Analisis pendapatan dan pengeluaran
+  - Pantau saldo secara real-time
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🛠️ Teknologi
 
-## Learning Laravel
+- **Framework:** Laravel 11
+- **Admin Panel:** Filament 3
+- **Database:** MySQL
+- **Frontend:** Tailwind CSS
+- **Bahasa:** PHP 8.3.16
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🚀 Fitur Keamanan
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Multi-level authentication (Admin & Warga)
+- Verifikasi pembayaran dua tahap
+- Enkripsi data sensitif
+- Proteksi terhadap akses tidak sah
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📊 Dashboard Informatif
 
-## Laravel Sponsors
+- Ringkasan keuangan real-time
+- Grafik pendapatan dan pengeluaran
+- Status pembayaran warga
+- Notifikasi pembayaran dan verifikasi
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 💡 Keunggulan
 
-### Premium Partners
+- Interface yang mudah digunakan
+- Sistem pembayaran yang transparan
+- Laporan keuangan yang terperinci
+- Manajemen data yang aman
+- Tampilan responsif untuk semua perangkat
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## 📱 Tampilan Mobile-Friendly
 
-## Contributing
+Akses sistem dari berbagai perangkat:
+- Desktop
+- Tablet
+- Smartphone
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🔒 Privasi Data
 
-## Code of Conduct
+- Data warga terenkripsi
+- Backup data otomatis
+- Sistem pemulihan data
+- Proteksi informasi pribadi
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<div align="center">
+  <p>© 2025 WargaKu - Sistem Manajemen Keuangan Warga</p>
+  <p>Capstone Project</p>
+</div>
