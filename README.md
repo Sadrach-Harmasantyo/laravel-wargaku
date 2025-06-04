@@ -68,13 +68,6 @@ Akses sistem dari berbagai perangkat:
 - Tablet
 - Smartphone
 
-## 🔒 Privasi Data
-
-- Data warga terenkripsi
-- Backup data otomatis
-- Sistem pemulihan data
-- Proteksi informasi pribadi
-
 ---
 
 <div align="center">
